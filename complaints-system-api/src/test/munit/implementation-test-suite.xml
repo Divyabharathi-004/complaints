@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-test-suite.xml" />
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest" doc:id="0feacc06-ae16-434d-b032-dc2b5506e430" description="Test">
+		<munit:execution >
+			<munit:set-null-payload doc:name="Set null payload" doc:id="242442cb-8467-42e1-8c90-fafbeebe0f0b" />
+			<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="47f34ba0-f52e-4c9b-b11e-8ddf61b22b6e" name="GETallComplaintsFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="ac816f6c-e173-42e5-a7d9-1107cf3949a8" is="#[MunitTools::notNullValue()]" message='"Retrieved Null Payload"' expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest1" doc:id="12ebe60f-58b9-4670-bd64-0d083d2a4d54" description="Test">
+		<munit:execution >
+			<munit:set-null-payload doc:name="Set null payload" doc:id="733c20a4-3cd9-44be-8b51-5ae47c71ebf5" />
+			<munit:set-event doc:name="Set Event" doc:id="903808bc-b44b-4a7d-bbd9-c19ce1a2082b" >
+				<munit:attributes value='#[queryParams: {customerNumber: 10001, orderID: 101, orderDate: "2020-04-02T00:00:00"}]' mediaType="application/java" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="d74d03ff-4095-409b-b9a8-589e108642ce" name="GETallComplaintsFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e09f13f4-c163-434a-b5c0-1356cf5ade15" expression="#[payload]" is="#[MunitTools::notNullValue()]" message='"Retrieved Null Payload"' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest2" doc:id="b3073d9f-12d0-4c6a-849f-ec897827691a" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="542d6f53-6d18-4e91-8871-edec2e457227" />
+				<munit:set-event doc:name="Set Event" doc:id="3d9f5e74-881a-4e2d-89ce-70b76c40c85f">
+				<munit:attributes value="#[queryParams: {customerNumber: 10001, orderID: 101}]" mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="7c038281-a5c9-4e0e-99a6-1bb1116a82d6" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="2e40cf48-3642-4999-841b-bb73370083b7" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest3" doc:id="f2ddca09-698f-416d-bec9-30268402dba8" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="f5ab42ed-901c-4f2f-ade2-082bd9fde7cb" />
+				<munit:set-event doc:name="Set Event" doc:id="befba2da-d1d1-4cc1-922a-c36d6f3b82c1">
+				<munit:attributes value='#[queryParams: {customerNumber: 10001, orderDate: "2020-04-02T00:00:00"}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="41dbb448-9914-46ca-b85c-f677624d80fc" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="1c9a79de-808c-4ede-88e5-25e395e64f85" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest4" doc:id="d82ebf79-563a-4182-ad73-9978bcb74bc7" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="21c987ac-cb70-428e-87d7-2586095a24ec" />
+				<munit:set-event doc:name="Set Event" doc:id="dfc2aab6-9d03-4232-a651-ac190805c89b">
+				<munit:attributes value='#[queryParams: {orderID: 101, orderDate: "2020-04-02T00:00:00"}]' mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="83f0c041-ab60-4e62-8aa0-dc9d1d681981" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="0a2f69b6-696a-45ad-a253-22b999dfd7be" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest5" doc:id="fa5494cf-98b0-4560-aac8-7e2acc30c24c" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="23ef8680-f3b6-46f6-bbf8-f1521a4a2b74" />
+				<munit:set-event doc:name="Set Event" doc:id="14a8c5f1-b691-43f8-b5f9-e3ea133844ac">
+				<munit:attributes value="#[queryParams: {customerNumber: 10001}]" mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="76b25371-a9b4-4ff2-97f5-f6ff6ba0f100" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="a63b6d89-2637-4277-8d17-e85d4f280461" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest6" doc:id="5d5517ba-6a00-4afb-a099-93fa7c33d810" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="4d4a01cd-1bc1-4c08-be09-73a7660fb280" />
+				<munit:set-event doc:name="Set Event" doc:id="f5fb5816-29d9-46e4-a75f-05c184455c6d">
+				<munit:attributes value="#[queryParams: {orderID: 101}]" mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="7018789e-449c-47a3-a9e5-337dc4096638" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="4d656741-9b3e-4da6-ae46-499fc24ceec5" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest7" doc:id="aee8a5a2-f1ca-42eb-aa1e-4a0bd78c1e9f" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="d6c39a34-0596-4f6a-9050-31bea9ff8fce" />
+				<munit:set-event doc:name="Set Event" doc:id="6d768260-a109-45fe-9969-01d6d39d1566">
+				<munit:attributes value='#[queryParams: {orderDate: "2020-04-02T00:00:00"}]' mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="d6ee09b7-0485-41dc-9541-9f157fac7a91" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="d9c83d68-a975-4d6a-91b3-1d38c259293c" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest8" doc:id="ef4ffdc4-d7de-45a1-8c62-b9aec6fc47e1" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="998c16ae-d950-49e2-964c-67118158da7e" />
+				<munit:set-event doc:name="Set Event" doc:id="8cc3ab64-4222-48e7-9804-d207006b5bdd">
+				<munit:attributes value='#[queryParams: {complaintPriority: "Low"}]' mediaType="application/java" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="88144809-054e-4f78-8258-309c6f8a8174" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="e5d942a9-e4b2-4aa9-a17b-1e6084723e9d" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest9" doc:id="23209062-d78f-496c-bc32-3fc37c637141" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="128e8db9-2667-4ea3-a1f8-42a37c068d9a" />
+				<munit:set-event doc:name="Set Event" doc:id="58abe8b4-ca94-4f91-819c-b09849312114">
+				<munit:attributes value='#[queryParams: {complaintStatus: "Pending"}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="b0caf51a-dd0e-478a-b147-c36e1ad44eb6" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="b257e2b6-e231-467c-9d2d-fea3059cbcae" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETallComplaintsFlowTest10" doc:id="7ae1ffc2-157e-4851-a7d0-be477ab49a44" description="Test">
+			<munit:execution>
+				<munit:set-null-payload doc:name="Set null payload" doc:id="6044283c-d40f-41d0-a745-102e0d0ea72c" />
+				<munit:set-event doc:name="Set Event" doc:id="aa4e1772-28c0-4c97-9b74-c4f7857bf836">
+				<munit:payload value='#[queryParams: {complaintPriority: "Low", complaintStatus: "Pending"}]' mediaType="application/java" />
+				<munit:attributes value='#[queryParams: {complaintPriority: "Low", complaintStatus: "Pending"}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to GETallComplaintsFlow" doc:id="1b0df439-546f-41a9-9a9e-e1d25940527b" name="GETallComplaintsFlow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="329a96ce-3200-49ef-9377-1a8741c460dd" message='"Retrieved Null Payload"' expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="implementation-test-suite-GETComplaintsbyCIDFlowTest" doc:id="c8a5147d-e171-4865-9e6a-5882d0007f91" description="Test">
+		<munit:execution>
+			<munit:set-null-payload doc:name="Set null payload" doc:id="c50f789c-c475-43f6-9057-48ca86fd9f5b" />
+			<munit:set-event doc:name="Set Event" doc:id="fe8bc554-1980-44f2-9890-1343f673246c">
+				<munit:variables>
+					<munit:variable key="complaintID" value="100001" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to GETComplaintsbyCIDFlow" doc:id="a1b86302-9d1b-435e-ace6-e84d0085b089" name="GETComplaintsbyCIDFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="eb15c1b3-bd9d-4346-915e-f1c4c8f867de" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-DELETEComplaintsbyCIDFlowTest" doc:id="90f086d8-f489-412a-beba-495f21bf0332" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="50eabbf1-ebeb-44f4-ba98-a2ad03e1c01d" processor="db:delete">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="256d084a-b3d3-4965-ae0b-6ab54f92086e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-null-payload doc:name="Set null payload" doc:id="21cc05dd-d220-4a7c-93d6-8bc37d4791dd" />
+			<munit:set-event doc:name="Set Event" doc:id="379bac5a-4169-4334-99ba-1c3115115385">
+				<munit:variables>
+					<munit:variable key="complaintID" value="100001" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to DELETEComplaintsbyCIDFlow" doc:id="94a96ed8-ae06-4bc2-8167-42cb521f6e4f" name="DELETEComplaintsbyCIDFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="0ffdb794-e800-4d73-b59b-24783a12a43b" actual="#[payload]" expected='#[{&#10;	"Message": "The Complaint has been deleted for ComplaintID:100001"&#10;}]' />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

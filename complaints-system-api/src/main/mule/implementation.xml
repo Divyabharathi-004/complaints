@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	<flow name="GETallComplaintsFlow" doc:id="55f0046b-4975-444f-8756-0e24f0da23cb" >
+		<choice doc:name="Choice" doc:id="4da2936b-f272-4641-8763-9d9d85eeaf87" >
+			<when expression="#[(attributes.queryParams.orderDate != null) and (attributes.queryParams.orderID != null) and (attributes.queryParams.customerNumber != null)]">
+				<db:select doc:name="Select by OrderID &amp; OrderDate &amp; CustomerNumber" doc:id="5f293665-0030-4103-9a93-69fe82fefc36" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where customerNumber= :CuN and orderID= :oid and orderDate= :odate;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'CuN': attributes.queryParams.customerNumber,
+	'oid': attributes.queryParams.orderID,
+	'odate': attributes.queryParams.orderDate
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.orderDate != null) and (attributes.queryParams.orderID != null)]">
+				<db:select doc:name="Select by OrderID &amp; OrderDate" doc:id="38e295cc-1014-4bde-ab03-584048e89e00" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where orderID= :oid and orderDate= :odate;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'oid': attributes.queryParams.orderID,
+	'odate': attributes.queryParams.orderDate
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.customerNumber != null) and (attributes.queryParams.orderDate != null)]">
+				<db:select doc:name="Select by CustomerNumber &amp; OrderDate" doc:id="279af599-3e51-4d95-93d0-5bcd4624049a" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where customerNumber= :CuN and orderDate= :odate;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'CuN': attributes.queryParams.customerNumber,
+	'odate': attributes.queryParams.orderDate
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.customerNumber != null) and (attributes.queryParams.orderID != null)]">
+				<db:select doc:name="Select by CustomerNumber &amp; OrderID" doc:id="257cadbe-b14d-410b-86d2-e39efc26ee23" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where customerNumber= :CuN and orderID= :oid;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'CuN': attributes.queryParams.customerNumber,
+	'oid': attributes.queryParams.orderID
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[attributes.queryParams.customerNumber != null]">
+				<db:select doc:name="Select by CustomerNumber" doc:id="d46582f3-d7e7-47eb-ae0c-f497463d8289" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where customerNumber= :CuN;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'CuN': attributes.queryParams.customerNumber
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[attributes.queryParams.orderID != null]">
+				<db:select doc:name="Select by OrderNumber" doc:id="78dbc273-45d7-429c-af3c-323afe24a081" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where orderID= :oid;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'oid': attributes.queryParams.orderID
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[attributes.queryParams.orderDate != null]">
+				<db:select doc:name="Select by OrderDate" doc:id="a465a943-846a-4d77-924e-5e3af938c210" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where orderDate= :odate;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'odate': attributes.queryParams.orderDate
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.complaintPriority != null)]">
+				<db:select doc:name="Select by Complaint Priority" doc:id="efc24b0a-4b43-4f82-b160-c614069e4444" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where complaintPriority= :cpriority;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'cpriority': attributes.queryParams.complaintPriority
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.complaintStatus != null)]">
+				<db:select doc:name="Select by Complaint Status" doc:id="52230787-9462-410f-aa61-ecfdb5b98969" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where complaintStatus= :cstatus;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'cstatus': attributes.queryParams.complaintStatus
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<when expression="#[(attributes.queryParams.complaintStatus != null) and (attributes.queryParams.complaintPriority != null)]">
+				<db:select doc:name="Select by Complaint Status and Priority" doc:id="8404d539-4088-4527-a8ae-beb8e4642e88" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[select * from Complaints where complaintStatus= :cstatus and complaintPriority= :cpriority;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'cstatus': attributes.queryParams.complaintStatus,
+	'cpriority': attributes.queryParams.complaintPriority
+}]]]></db:input-parameters>
+				</db:select>
+			</when>
+			<otherwise >
+				<db:select doc:name="Select" doc:id="a28fd641-f4d8-4b5f-9b9e-39a57c7ccd5e" config-ref="MySQL_Database_Config">
+			<db:sql><![CDATA[select * from Complaints;]]></db:sql>
+		</db:select>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="891a3c69-215d-4fa4-8b94-d98b4ad03790" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GETComplaintsbyCIDFlow" doc:id="3a3e3070-87dc-47f9-86a1-2edf99526197" >
+		<db:query-single doc:name="Query single" doc:id="d710a58a-8950-483e-ba7c-620b1116b651" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[select * from Complaints where complaintID= :cid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID
+}]]]></db:input-parameters>
+		</db:query-single>
+		<ee:transform doc:name="Transform Message" doc:id="f5067269-27e1-4a45-8635-85d1f541fd58" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="DELETEComplaintsbyCIDFlow" doc:id="3622ca3f-3075-4a44-9e36-97f1c66c0879" >
+		<db:delete doc:name="Delete" doc:id="256d084a-b3d3-4965-ae0b-6ab54f92086e" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[delete from Complaints where complaintID= :cid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID
+}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="Transform Message" doc:id="143d85ac-74a0-4ea8-b478-0cec9a487ea6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "The Complaint has been deleted for ComplaintID:" ++ vars.complaintID
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<sub-flow name="VariableSub_Flow" doc:id="e44a29b0-e579-4b55-aade-458b669ff9c7" >
+		<set-variable value="#[payload.complaintDescription]" doc:name="Complaint Description" doc:id="35a04e00-0e12-4eab-9a0b-9801d8a9473d" variableName="complaintDescription"/>
+		<set-variable value='#[payload.complaintStatus default "Pending"]' doc:name="Complaint Status" doc:id="1c4c71a7-22d1-4d6f-90f5-b722f5598ed3" variableName="complaintStatus"/>
+		<set-variable value='#[payload.complaintPriority default "Low"]' doc:name="Complaint Priority" doc:id="4856f09e-1b7e-4985-a90f-261bd9ea9df0" variableName="complaintPriority"/>
+		<set-variable value="#[now() as Date]" doc:name="Complaint Date" doc:id="a0dc133f-d474-48a4-a65f-4ff1f78bbcea" variableName="complaintDate" />
+		<set-variable value="#[payload.complaintResponse]" doc:name="Complaint Response" doc:id="5682669d-226e-4da6-8f9c-65a50c56ce59" variableName="complaintResponse"/>
+		<set-variable value="#[payload.customerNumber]" doc:name="Customer Number" doc:id="9eec39a7-2911-444d-9b93-1208276d8a2c" variableName="customerNumber"/>
+		<set-variable value="#[payload.orderID]" doc:name="Order Id" doc:id="a7d3b6e5-edd3-4a2d-8f05-a79f68d15f50" variableName="orderID"/>
+		<set-variable value="#[payload.orderDate]" doc:name="Order Date" doc:id="f8b2c8f2-39be-4bd7-8fa2-4e81f9b7c741" variableName="orderDate"/>
+		<set-variable value="#[payload.productID]" doc:name="Product ID" doc:id="22b1796f-8993-4c0a-9210-a3c9546e321f" variableName="productID"/>
+	</sub-flow>
+	<flow name="PATCHComplaintbyCIDFlow" doc:id="61d416ce-2a8b-48ac-9f91-7d6ae86688b2" >
+		<flow-ref doc:name="Variable SubFlow Reference" doc:id="b010867d-a923-4243-9f9d-c028c7ee4f93" name="VariableSub_Flow"/>
+		<db:query-single doc:name="Query single" doc:id="9310abc5-ac80-4b13-a969-6dea66a17cf2" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[select * from Complaints where complaintID= :cid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID
+}]]]></db:input-parameters>
+		</db:query-single>
+		<db:update doc:name="Update" doc:id="f8e6169a-ad06-4772-8321-f1a96f1adcb4" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[update Complaints set complaintDescription= :cdesc, orderID= :oid, productID= :pid, orderDate= :odate, 
+complaintPriority= :cpriority,complaintStatus= :cstatus, complaintResponse= :cresponse where complaintID= :cid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID,
+	'cstatus': vars.complaintStatus default payload.complaintStatus,
+	'cresponse': vars.complaintResponse default payload.complaintResponse,
+	'cdesc': vars.complaintDescription default payload.complaintDescription,
+	'cpriority': vars.complaintPriority default payload.complaintPriority,
+	'oid': vars.orderID default payload.orderID,
+	'pid': vars.productID default payload.productID,
+	'odate': vars.orderDate default payload.orderDate
+}]]]></db:input-parameters>
+		</db:update>
+		<ee:transform doc:name="Transform Message" doc:id="6f2f0d22-b225-4846-b1f4-0a1b8ad91238">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "The Complaint has been updated for ComplaintID:" ++ vars.complaintID as Number
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	
+</flow>
+	<flow name="POSTComplaintFlow" doc:id="6dd17745-1a00-4f0e-80ee-4be3d9224e8e" >
+		<flow-ref doc:name="Variable SubFlow Reference" doc:id="1e5e2bd6-9751-4ac7-8484-c1addb3eb90a" name="VariableSub_Flow"/>
+		<db:insert doc:name="Insert" doc:id="04375887-f620-40ec-ab04-2bcb299950e4" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[insert into Complaints (complaintDescription, complaintStatus, complaintDate, complaintPriority, customerNumber, orderID, orderDate, productID)
+values (:cdesc, :cstatus, :cdate, :cpriority, :cno, :oid, :odate, :pid);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cdesc': vars.complaintDescription,
+	'cstatus': vars.complaintStatus,
+	'cdate': vars.complaintDate,
+	'cpriority': vars.complaintPriority,
+	'cno': vars.customerNumber,
+	'oid': vars.orderID,
+	'pid': vars.productID,
+	'odate': vars.orderDate
+}]]]></db:input-parameters>
+		</db:insert>
+		<db:query-single doc:name="Query single" doc:id="19f40818-a2b2-4659-903c-9b0e64cf7a18" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[select max(complaintID) from Complaints;]]></db:sql>
+		</db:query-single>
+		<ee:transform doc:name="Transform Message" doc:id="0145cde6-8685-46c8-9870-78a79e431509" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "The Complaint has been added with ComplaintID:" ++ payload."max(complaintID)" as Number
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="201" doc:name="HTTP Status" doc:id="1e01762c-c5a1-42b0-9ce6-9a80fbdc4a11" variableName="httpStatus"/>
+	</flow>
+	<flow name="PUTComplaintbyCIDFlow" doc:id="7b93f558-7e2e-40fa-9949-793c150e98c1" >
+		<flow-ref doc:name="Variable SubFlow Reference" doc:id="76377fc0-6bd8-41c6-b4c6-9dce21f1a42b" name="VariableSub_Flow"/>
+		<db:query-single doc:name="Query single" doc:id="d631f992-4dc3-4ff5-8881-68eb3f354ac3" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[select * from Complaints where complaintID= :cid;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID
+}]]]></db:input-parameters>
+		</db:query-single>
+		<choice doc:name="Choice" doc:id="7b4e288a-0f11-4b2c-aa3a-5e043385916a" >
+			<when expression="#[sizeOf(payload)&gt;0]">
+				<db:update doc:name="Update" doc:id="8317a039-d4de-45f9-9358-e1bc402d5ce3" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[update Complaints set complaintDescription= :cdesc, orderID= :oid, productID= :pid, orderDate= :odate,
+complaintStatus= :cstatus, complaintResponse= :cresponse where complaintID= :cid;]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'cid': vars.complaintID,
+	'cstatus': vars.complaintStatus,
+	'cresponse': vars.complaintResponse,
+	'cdesc': vars.complaintDescription,
+	'oid': vars.orderID,
+	'pid': vars.productID,
+	'odate': vars.orderDate
+}]]]></db:input-parameters>
+				</db:update>
+				<ee:transform doc:name="Transform Message" doc:id="3d082c63-986a-45d5-8183-920405b1e920" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "The Complaint has been updated for ComplaintID:" ++ vars.complaintID as Number
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<db:insert doc:name="Insert" doc:id="d18717ce-23d2-47da-9d84-2ac627715719" config-ref="MySQL_Database_Config">
+					<db:sql ><![CDATA[insert into Complaints (complaintDescription, complaintStatus, complaintDate, complaintPriority, customerNumber, orderID, orderDate, productID)
+values (:cdesc, :cstatus, :cdate, :cpriority, :cno, :oid, :odate, :pid);]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+	'cdesc': vars.complaintDescription,
+	'cstatus': vars.complaintStatus,
+	'cdate': vars.complaintDate,
+	'cpriority': vars.complaintPriority,
+	'cno': vars.customerNumber,
+	'oid': vars.orderID,
+	'pid': vars.productID,
+	'odate': vars.orderDate
+}]]]></db:input-parameters>
+				</db:insert>
+				<db:query-single doc:name="Query single" doc:id="ba511440-7382-4d5d-b8d5-93f24758cc8e" config-ref="MySQL_Database_Config">
+					<db:sql><![CDATA[select max(complaintID) from Complaints;]]></db:sql>
+				</db:query-single>
+				<ee:transform doc:name="Transform Message" doc:id="0e9e1d37-367d-4b84-bee0-c389c09c66a0" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message": "The Complaint has been added."
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="201" doc:name="HTTP Status" doc:id="4b05063c-10db-49b2-8620-83f4414ba287" variableName="httpStatus" />
+			
+</otherwise>
+		</choice>
+	</flow>
+	<flow name="autoPriorityFlow" doc:id="72076b8d-949f-4349-863c-c268ebeeefc5" >
+		<scheduler doc:name="Scheduler" doc:id="846804e0-db11-4fd7-9e47-3dfe36c0eb89" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="12" timeUnit="HOURS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<db:select doc:name="Select" doc:id="db3ca4b0-aba2-49eb-905f-c9d2ab0a830c" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[select * from Complaints;]]></db:sql>
+		</db:select>
+		<parallel-foreach doc:name="Parallel For Each" doc:id="e537dc5b-a312-4951-a3a9-e769655e614f" >
+			<set-variable value='#[if ((((now()-(payload.complaintDate as Date default now())) as Number)/86400)&gt;8) "High" else if ((((now()-(payload.complaintDate as Date default now())) as Number)/86400)&gt;5) "Medium" else "Low"]' doc:name="Complaint Priority" doc:id="82cdc788-0124-46c8-8bec-ce4b522489bc" variableName="priority"/>
+			<db:update doc:name="Update" doc:id="174f822e-d9cf-47d9-a5c5-411387d136c4" config-ref="MySQL_Database_Config">
+				<db:sql ><![CDATA[update Complaints set complaintPriority = :cpriority where complaintID = :cid and complaintStatus = "Pending";]]></db:sql>
+				<db:input-parameters ><![CDATA[#[{
+	'cid': payload.complaintID,
+	'cpriority': vars.priority
+}]]]></db:input-parameters>
+			</db:update>
+		</parallel-foreach>
+	</flow>
+
+</mule>

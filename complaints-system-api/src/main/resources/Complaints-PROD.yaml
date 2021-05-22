@@ -1,0 +1,10 @@
+http:
+  host: "0.0.0.0"
+  port: "8081"
+
+db:
+  host: "bqqt5iojxgin8eilpqtz-mysql.services.clever-cloud.com"
+  port: "3306"
+  user: "u6go4xoch2dmqrnp"
+  password: "GrvLO46BclmsSMPTX7gO"
+  database: "bqqt5iojxgin8eilpqtz"
